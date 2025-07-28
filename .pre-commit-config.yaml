@@ -48,6 +48,9 @@ repos:
   # Ruff version.
   rev: v0.12.1
   hooks:
+  # Hook to run: ruff check --fix
+    - id: ruff
+      args: [--fix]
   # Run the formatter.
     - id: ruff-format
   # Run the linter.
