@@ -32,7 +32,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.x'
 
       - name: Install PDM
         run: |
@@ -73,9 +73,9 @@ jobs:
             exit $code
           fi
 
-      # - name: Run pydoclint
-      #   run: |
-      #     pydoclint src/
+      - name: Run pydoclint
+        run: |
+          pydoclint src/
 
       - name: Ruff Check
         uses: chartboost/ruff-action@v1
@@ -105,7 +105,7 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.x'
 
       - name: Install PDM
         run: |
