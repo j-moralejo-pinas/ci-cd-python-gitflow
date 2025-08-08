@@ -586,8 +586,6 @@ Understanding the codebase structure will help you contribute effectively:
     │   └── ...
     ├── tests/                   # Test suite
     ├── docs/                    # Documentation
-    ├── env_config/              # Environment configuration files
-    ├── logs_mlflow/             # MLflow experiment logs
     └── pyproject.toml           # Project configuration
 
 Getting Help
