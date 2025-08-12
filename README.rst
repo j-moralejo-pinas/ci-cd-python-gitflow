@@ -60,6 +60,8 @@ This project template provides a solid foundation for Python development with pr
 - 🤝 `Contributing Guidelines <CONTRIBUTING.rst>`_ - Development standards and contribution process
 - 📄 `License <LICENSE.txt>`_ - License terms and usage rights
 - 👥 `Authors <AUTHORS.rst>`_ - Project contributors and maintainers
+- 📜 `Changelog <CHANGELOG.rst>`_ - Project history and version changes
+- 📜 `Code of Conduct <CODE_OF_CONDUCT.rst>`_ - Guidelines for participation and conduct
 
 ---
 
