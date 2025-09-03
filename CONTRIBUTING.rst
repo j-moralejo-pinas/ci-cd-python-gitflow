@@ -477,11 +477,11 @@ Example test:
     from ci_cd_python import fun
 
 
-    class TestCICD:
-        """Test suite for CI/CD pipeline functions."""
+    class TestFeature:
+        """Test suite for new feature."""
 
-        def test_pipeline_initialization(self):
-            """Test that the pipeline initializes with correct default values."""
+        def test_feature_initialization(self):
+            """Test that the feature initializes with correct default values."""
             assert fun()
 
 

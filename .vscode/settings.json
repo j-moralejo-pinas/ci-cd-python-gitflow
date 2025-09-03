@@ -4,6 +4,20 @@
     "python.analysis.autoImportCompletions": true,
     "python.defaultInterpreterPath": "/home/linuxjavier/micromamba/envs/env_name/bin/python",
     "cSpell.language": "en,es",
+    "cSpell.dictionaries": [
+        "css",
+        "docker",
+        "django",
+        "data-science",
+        "data-science-models",
+        "data-science-tools",
+        "git",
+        "html",
+        "latex",
+        "makefile",
+        "python",
+        "python-common",
+    ],
     "python.autoComplete.extraPaths": [
         "src"
     ],

@@ -28,37 +28,37 @@ Quick Start
 
 1. **Clone the Repository**
 
-   Clone the project repository from GitHub::
+    Clone the project repository from GitHub::
 
-       git clone https://github.com/j-moralejo-pinas/ci-cd-python.git
-       cd ci-cd-python
+        git clone https://github.com/j-moralejo-pinas/ci-cd-python.git
+        cd ci-cd-python
 
 2. **Set Up Virtual Environment (Recommended)**
 
-   While not mandatory, using a virtual environment is highly recommended to avoid dependency conflicts::
+    While not mandatory, using a virtual environment is highly recommended to avoid dependency conflicts::
 
-       # Using conda (recommended)
-       conda create -n env_config python=3.x
-       conda activate env_config
+        # Using conda (recommended)
+        conda create -n env_config python=3.x
+        conda activate env_config
 
-       # OR using venv
-       python -m venv venv
-       # On Linux/macOS:
-       source venv/bin/activate
-       # On Windows:
-       venv\Scripts\activate
+        # OR using venv
+        python -m venv venv
+        # On Linux/macOS:
+        source venv/bin/activate
+        # On Windows:
+        venv\Scripts\activate
 
 3. **Install the Package**
 
-   Install the project and its dependencies::
+    Install the project and its dependencies::
 
-       pip install -e .
+        pip install -e .
 
 4. **Verify Installation**
 
-   Test that the installation was successful::
+    Test that the installation was successful::
 
-       python -c "import ci_cd_python; print('Installation successful!')"
+        python -c "import ci_cd_python; print('Installation successful!')"
 
 Docker Installation (Alternative)
 ==================================
@@ -78,22 +78,22 @@ Docker Setup
 
    ::
 
-       git clone https://github.com/j-moralejo-pinas/ci-cd-python.git
-       cd ci-cd-python
+        git clone https://github.com/j-moralejo-pinas/ci-cd-python.git
+        cd ci-cd-python
 
 2. **Build the Docker Image**
 
-   Build the application using Docker Compose::
+    Build the application using Docker Compose::
 
-       docker-compose build
+        docker-compose build
 
-   This will create a Docker image with all necessary dependencies pre-installed.
+    This will create a Docker image with all necessary dependencies pre-installed.
 
 3. **Verify Docker Installation**
 
-   Test that the Docker setup works::
+    Test that the Docker setup works::
 
-       docker-compose run --rm app python -c "import ci_cd_python; print('Docker installation successful!')"
+        docker-compose run --rm app python -c "import ci_cd_python; print('Docker installation successful!')"
 
 **Docker Benefits**
 
@@ -114,23 +114,23 @@ Development Setup
 
    ::
 
-       git clone https://github.com/j-moralejo-pinas/ci-cd-python.git
-       cd ci-cd-python
+        git clone https://github.com/j-moralejo-pinas/ci-cd-python.git
+        cd ci-cd-python
 
 2. **Set Up Development Environment**
 
-   Create a virtual environment (recommended)::
+    Create a virtual environment (recommended)::
 
-       conda create -n ci-cd-python-dev python=3.12
-       conda activate ci-cd-python-dev
+        conda create -n ci-cd-python-dev python=3.12
+        conda activate ci-cd-python-dev
 
 3. **Install in Development Mode**
 
-   Install the package with development dependencies::
+    Install the package with development dependencies::
 
-       pip install -e ".[dev,docs]"
+        pip install -e ".[dev,docs]"
 
-   This installs the project in editable mode with all development tools including:
+    This installs the project in editable mode with all development tools including:
 
    * ``pytest`` - Testing framework
    * ``pyright`` - Type checking
@@ -141,41 +141,41 @@ Development Setup
    * ``pytest-cov`` - Test coverage
    * ``pyupgrade`` - Code modernization
    * ``sphinx`` - Documentation generation
-   * ``sphinx-autoapi`` - Automatic API documentation generation 
+   * ``sphinx-autoapi`` - Automatic API documentation generation
 
 4. **Set Up Pre-commit Hooks**
 
-   Install pre-commit hooks to ensure code quality::
+    Install pre-commit hooks to ensure code quality::
 
-       pre-commit install
+        pre-commit install
 
 5. **Configure Type Checking**
 
-   Link your development environment to Pyright for proper type checking. Create a ``pyrightconfig.local.json`` file in the project root::
+    Link your development environment to Pyright for proper type checking. Create a ``pyrightconfig.local.json`` file in the project root::
 
-       {
-           "venvPath": "/path/to/your/conda/envs",
-           "venv": "ci-cd-python-dev"
-       }
+        {
+            "venvPath": "/path/to/your/conda/envs",
+            "venv": "ci-cd-python-dev"
+        }
 
-   Replace ``/path/to/your/conda/envs`` with your actual conda environments path (e.g., ``/home/username/miniconda3/envs`` or ``/home/username/micromamba/envs``).
+    Replace ``/path/to/your/conda/envs`` with your actual conda environments path (e.g., ``/home/username/miniconda3/envs`` or ``/home/username/micromamba/envs``).
 
 6. **Configure Environment**
 
-   Set the ``PYTHONPATH`` environment variable::
+    Set the ``PYTHONPATH`` environment variable::
 
-       export PYTHONPATH="${PWD}/src:${PYTHONPATH}"
+        export PYTHONPATH="${PWD}/src:${PYTHONPATH}"
 
-   Or add this to your shell profile (``~/.bashrc``, ``~/.zshrc``, etc.).
+    Or add this to your shell profile (``~/.bashrc``, ``~/.zshrc``, etc.).
 
 7. **Verify Installation**
 
-   Test that the development installation was successful::
+    Test that the development installation was successful::
 
-       python -c "import ci_cd_python; print('Development installation successful!')"
-       pytest --version
-       ruff --version
-       pyright --version
+        python -c "import ci_cd_python; print('Development installation successful!')"
+        pytest --version
+        ruff --version
+        pyright --version
 
 Troubleshooting
 ===============
