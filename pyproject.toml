@@ -51,6 +51,9 @@ dev = [
     "pyupgrade"
 ]
 docs = ["sphinx", "sphinx-autoapi"]
+format = ["ruff", "docformatter", "pyupgrade"]
+code-quality = ["ruff", "pydoclint", "pyright"]
+test = ["pytest", "pytest-cov"]
 
 [tool.pytest.ini_options]
 pythonpath = ["src", "tests"]
