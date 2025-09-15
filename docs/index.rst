@@ -1,8 +1,8 @@
 =============
-ci-cd-python
+package-name
 =============
 
-This is the documentation of **ci-cd-python project**.
+This is the documentation of **package-name project**.
 
 Contents
 ========

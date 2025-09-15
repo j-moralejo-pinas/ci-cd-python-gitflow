@@ -1,21 +1,5 @@
 {
     "version": "2.0.0",
     "tasks": [
-        {
-            "type": "austin",
-            "file": "${file}",
-            "label": "Profile main.py"
-        },
-        {
-            "type": "docker-build",
-            "label": "docker-build",
-            "platform": "python",
-            "dockerBuild": {
-                "tag": "ci-cd-python:latest",
-                "dockerfile": "${workspaceFolder}/Dockerfile",
-                "context": "${workspaceFolder}",
-                "pull": true
-            }
-        }
     ]
 }

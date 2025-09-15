@@ -2,7 +2,7 @@
 Contributors
 ============
 
-The ci-cd-python project is made possible by contributions from the following people:
+The package-name project is made possible by contributions from the following people:
 
 Maintainers
 ===========

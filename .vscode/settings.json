@@ -1,6 +1,5 @@
 {
     "terminal.integrated.env.linux": {"PYTHONPATH": "${workspaceFolder}/src"},
-    "python.analysis.typeCheckingMode": "basic",
     "python.analysis.autoImportCompletions": true,
     "python.defaultInterpreterPath": "/home/linuxjavier/micromamba/envs/env_name/bin/python",
     "cSpell.language": "en,es",
@@ -21,10 +20,6 @@
     "python.autoComplete.extraPaths": [
         "src"
     ],
-    "python.analysis.extraPaths": [
-        "src"
-    ],
-
     "cSpell.words": [
     ],
     "cSpell.caseSensitive": false,

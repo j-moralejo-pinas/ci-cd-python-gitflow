@@ -1,7 +1,7 @@
 Installation Guide
 ==================
 
-This guide provides step-by-step instructions for installing and setting up the ci-cd-python project template. Choose the installation section that best fits your needs.
+This guide provides step-by-step instructions for installing and setting up the package-name project template. Choose the installation section that best fits your needs.
 
 .. contents:: Table of Contents
    :local:
@@ -30,8 +30,8 @@ Quick Start
 
     Clone the project repository from GitHub::
 
-        git clone https://github.com/j-moralejo-pinas/ci-cd-python.git
-        cd ci-cd-python
+        git clone https://github.com/j-moralejo-pinas/package-name.git
+        cd package-name
 
 2. **Set Up Virtual Environment (Recommended)**
 
@@ -58,7 +58,7 @@ Quick Start
 
     Test that the installation was successful::
 
-        python -c "import ci_cd_python; print('Installation successful!')"
+        python -c "import package_name; print('Installation successful!')"
 
 Docker Installation (Alternative)
 ==================================
@@ -78,8 +78,8 @@ Docker Setup
 
    ::
 
-        git clone https://github.com/j-moralejo-pinas/ci-cd-python.git
-        cd ci-cd-python
+        git clone https://github.com/j-moralejo-pinas/package-name.git
+        cd package-name
 
 2. **Build the Docker Image**
 
@@ -93,7 +93,7 @@ Docker Setup
 
     Test that the Docker setup works::
 
-        docker-compose run --rm app python -c "import ci_cd_python; print('Docker installation successful!')"
+        docker-compose run --rm app python -c "import package_name; print('Docker installation successful!')"
 
 **Docker Benefits**
 
@@ -114,15 +114,15 @@ Development Setup
 
    ::
 
-        git clone https://github.com/j-moralejo-pinas/ci-cd-python.git
-        cd ci-cd-python
+        git clone https://github.com/j-moralejo-pinas/package-name.git
+        cd package-name
 
 2. **Set Up Development Environment**
 
     Create a virtual environment (recommended)::
 
-        conda create -n ci-cd-python-dev python=3.12
-        conda activate ci-cd-python-dev
+        conda create -n package-name-dev python=3.x
+        conda activate package-name-dev
 
 3. **Install in Development Mode**
 
@@ -155,7 +155,7 @@ Development Setup
 
         {
             "venvPath": "/path/to/your/conda/envs",
-            "venv": "ci-cd-python-dev"
+            "venv": "package-name-dev"
         }
 
     Replace ``/path/to/your/conda/envs`` with your actual conda environments path (e.g., ``/home/username/miniconda3/envs`` or ``/home/username/micromamba/envs``).
@@ -172,7 +172,7 @@ Development Setup
 
     Test that the development installation was successful::
 
-        python -c "import ci_cd_python; print('Development installation successful!')"
+        python -c "import package_name; print('Development installation successful!')"
         pytest --version
         ruff --version
         pyright --version
@@ -194,7 +194,7 @@ If you have issues with virtual environments, try::
 
     # For conda environments
     conda info --envs  # List all environments
-    conda activate ci-cd-python  # Activate the environment
+    conda activate package-name-dev  # Activate the environment
 
     # For venv environments
     which python  # Check which Python you're using
@@ -214,7 +214,7 @@ If Docker commands fail::
 
 **Getting Help**
 
-* Check the project's GitHub issues: https://github.com/j-moralejo-pinas/ci-cd-python/issues
+* Check the project's GitHub issues: https://github.com/j-moralejo-pinas/package-name/issues
 * Review the documentation for detailed usage examples
 * Ensure all dependencies are correctly installed
 

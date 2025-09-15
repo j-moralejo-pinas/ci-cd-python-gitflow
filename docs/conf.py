@@ -33,7 +33,7 @@ import shutil
 #     from sphinx import apidoc
 
 # output_dir = os.path.join(__location__, "api")
-# module_dir = os.path.join(__location__, "../src/ci_cd_python")
+# module_dir = os.path.join(__location__, "../src/package_name")
 # try:
 #     shutil.rmtree(output_dir)
 # except FileNotFoundError:
@@ -110,7 +110,7 @@ source_suffix = ".rst"
 master_doc = "index"
 
 # General information about the project.
-project = "ci-cd-python"
+project = "package-name"
 copyright = "2025, Javier Moralejo"
 
 # The version info for the project you're documenting, acts as replacement for
@@ -122,7 +122,7 @@ copyright = "2025, Javier Moralejo"
 # If you don’t need the separation provided between version and release,
 # just set them both to the same value.
 try:
-    from ci_cd_python import __version__ as version
+    from package_name import __version__ as version
 except ImportError:
     version = ""
 
@@ -249,7 +249,7 @@ html_static_path = ["_static"]
 # html_file_suffix = None
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "ci-cd-python-doc"
+htmlhelp_basename = "package-name-doc"
 
 
 # -- Options for LaTeX output ------------------------------------------------
@@ -265,7 +265,7 @@ latex_elements = {
 
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, documentclass [howto/manual]).
-latex_documents = [("index", "user_guide.tex", "ci-cd-python Documentation", "Javier Moralejo", "manual")]
+latex_documents = [("index", "user_guide.tex", "package-name Documentation", "Javier Moralejo", "manual")]
 
 # The name of an image file (relative to this directory) to place at the top of
 # the title page.
