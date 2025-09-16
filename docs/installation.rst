@@ -16,8 +16,6 @@ Before installing the project, ensure you have the following requirements:
 * **Git** for cloning the repository
 * **Internet connection** for downloading dependencies
 
-The project has been tested on Linux, macOS, and Windows systems.
-
 User Installation
 =================
 
