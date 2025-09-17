@@ -11,22 +11,22 @@ Contents
    :maxdepth: 2
    :caption: Getting Started
 
-   Overview <readme>
+   Overview <README>
    Installation & Quick Start <installation>
 
 .. toctree::
    :maxdepth: 2
    :caption: Development
 
-   Contributing <contributing>
+   Contributing <CONTRIBUTING>
 
 .. toctree::
    :maxdepth: 1
    :caption: Project Info
 
-   License <license>
-   Authors <authors>
-   Changelog <changelog>
+   License <LICENSE>
+   Authors <AUTHORS>
+   Changelog <CHANGELOG>
 
 .. toctree::
    :maxdepth: 2
@@ -37,9 +37,7 @@ Contents
 Indices and tables
 ==================
 
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
+- :ref:`modindex`
 
 .. _toctree: https://www.sphinx-doc.org/en/master/usage/restructuredtext/directives.html
 .. _reStructuredText: https://www.sphinx-doc.org/en/master/usage/restructuredtext/basics.html

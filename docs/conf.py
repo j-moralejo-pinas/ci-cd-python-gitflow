@@ -9,7 +9,8 @@
 
 import os
 import sys
-import shutil
+
+sys.path.append(os.path.abspath("_ext"))
 
 # -- Path setup --------------------------------------------------------------
 
@@ -75,6 +76,7 @@ extensions = [
     "sphinx.ext.imgmath",
     "sphinx.ext.ifconfig",
     "sphinx.ext.imgconverter",
+    "link_rewriter",
 ]
 
 autoapi_type = "python"
