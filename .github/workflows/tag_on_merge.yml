@@ -2,6 +2,9 @@ name: tag_on_merge
 
 on:
   workflow_call:
+    secrets:
+      PAT_TOKEN:
+        required: true
 
 permissions:
   contents: write
@@ -18,4 +21,6 @@ jobs:
     steps:
       - name: Run semver tag action
         id: semver
+        with:
+          pat_token: ${{ secrets.PAT_TOKEN }}
         uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/semver-tag@main

@@ -9,6 +9,7 @@ set -euo pipefail
 NEW_TAG="${1:-}"
 BASE_BRANCH="${2:-}"
 MERGE_SHA="${3:-}"
+PAT="${PAT:-}"
 
 if git rev-parse -q --verify "refs/tags/${NEW_TAG}" >/dev/null; then
   echo "Tag ${NEW_TAG} already exists" >&2
@@ -23,4 +24,10 @@ fi
 
 echo "Tagging ${MERGE_SHA} with ${NEW_TAG}"
 git tag -a "${NEW_TAG}" "${MERGE_SHA}" -m "chore(release): ${NEW_TAG}"
+
+git config --unset-all http.https://github.com/.extraheader || true
+git config --unset credential.helper || true
+
+git remote set-url origin "https://${PAT}@github.com/${REPO}.git"
+
 git push origin "${NEW_TAG}"

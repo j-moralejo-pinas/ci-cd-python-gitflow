@@ -1,6 +1,13 @@
 name: Semver Tag
 description: Compute next semantic version from PR context, create and push a git tag, and output tag and version.
 
+inputs:
+  pat_token:
+    description: Personal Access Token with permission to push tags
+    required: true
+    default: ''
+
+
 outputs:
   new_tag:
     description: New tag in the format vX.Y.Z
@@ -29,10 +36,12 @@ runs:
       env:
         BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
         MERGE_SHA: ${{ github.event.pull_request.merge_commit_sha }}
+        PAT: ${{ inputs.pat_token }}
       run: |
         bash "${GITHUB_ACTION_PATH}/tag-merge-commit.sh" \
           "${{ steps.find.outputs.new_tag }}" \
           "${BASE_BRANCH}" \
-          "${MERGE_SHA}"
+          "${MERGE_SHA}" \
+          "${PAT}"
 
     # Version output is provided by the find-next-semver action
