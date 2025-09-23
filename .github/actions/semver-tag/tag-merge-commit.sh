@@ -9,7 +9,7 @@ set -euo pipefail
 NEW_TAG="${1:-}"
 BASE_BRANCH="${2:-}"
 MERGE_SHA="${3:-}"
-PAT="${PAT:-}"
+PAT="${4:-}"
 
 if git rev-parse -q --verify "refs/tags/${NEW_TAG}" >/dev/null; then
   echo "Tag ${NEW_TAG} already exists" >&2
