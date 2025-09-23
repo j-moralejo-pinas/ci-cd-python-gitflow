@@ -9,7 +9,7 @@ inputs:
   message:
     description: Base commit message (labels will be appended as bracketed tags)
     required: false
-    default: style: apply autofix
+    default: "style: apply autofix"
   labels:
     description: Labels to append as [label] tags (comma or space separated). Labels from the previous commit are also inherited automatically.
     required: false
