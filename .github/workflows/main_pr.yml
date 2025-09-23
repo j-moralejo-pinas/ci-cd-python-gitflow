@@ -18,7 +18,7 @@ jobs:
         uses: ./.github/actions/check-source-branch
         with:
           allowed_branches: dev
-          allowed_prefixes: hotfix/,release/
+          allowed_prefixes: hotfix/,release/,meta/,major/
   format:
     name: format
     needs: check-source-branch

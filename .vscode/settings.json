@@ -46,4 +46,10 @@
         "tests"
     ],
     "python.testing.unittestEnabled": false,
+    "[shellscript]": {
+        "files.eol": "\n",
+        "editor.defaultColorDecorators": "never",
+        "editor.tabSize": 2,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
 }

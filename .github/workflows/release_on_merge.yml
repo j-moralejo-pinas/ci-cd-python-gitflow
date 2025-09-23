@@ -15,7 +15,7 @@ concurrency:
 jobs:
   semver-tag:
     name: semver-tag
-    if: github.event.pull_request.merged == true
+    if: github.event.pull_request.merged == true && !startsWith(github.event.pull_request.head.ref, 'meta')
     runs-on: ubuntu-latest
     outputs:
       new_tag: ${{ steps.semver.outputs.new_tag }}
@@ -28,6 +28,7 @@ jobs:
   publish:
     name: publish
     needs: semver-tag
+    if: needs.semver-tag.result == 'success'
     runs-on: ubuntu-latest
     steps:
       - name: Run publish action

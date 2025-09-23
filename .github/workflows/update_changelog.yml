@@ -1,0 +1,210 @@
+name: Changelog slice between releases
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - 'release/**'
+      - 'major/**'
+
+permissions:
+  contents: write
+  pull-requests: read
+
+jobs:
+  slice:
+    runs-on: ubuntu-latest
+    env:
+      REPO_SLUG: ${{ github.repository }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          fetch-tags: true
+
+      # Compute the new version as the first step
+      - name: Compute new version
+        id: semver
+        uses: ./.github/actions/find-next-semver
+
+      # Detect last version present in CHANGELOG.md (first header starting with '## vX.Y.Z - YYYY-MM-DD')
+      - name: Determine last CHANGELOG version
+        id: changelog_last
+        uses: ./.github/actions/get-last-changelog-version
+        with:
+          changelog_path: CHANGELOG.rst
+
+      # Compare versions (semantic): result only if new_tag > last_tag
+      - name: Check if new version is above last changelog version
+        id: should_run
+        uses: ./.github/actions/compare-versions
+        with:
+          new_tag: ${{ steps.semver.outputs.new_tag }}
+          last_tag: ${{ steps.changelog_last.outputs.last_tag }}
+
+      - name: Find release cuts (previous and current)
+        id: cuts
+        env:
+          GH_TOKEN: ${{ github.token }}
+        if: ${{ steps.should_run.outputs.result == 'true' }}
+        run: |
+          set -euo pipefail
+          git fetch origin --prune --tags
+
+          # Current release cut from dev
+          CUR_CUT=$(git merge-base --fork-point "origin/dev" HEAD || git merge-base "origin/dev" HEAD)
+
+          # Previous release cut via latest x.y.0 tag reachable from main
+          TAG=$(
+            git tag --merged origin/main --sort=-v:refname \
+            | awk '/^v?[0-9]+\.[0-9]+\.0$/ {print; exit}'
+          )
+          if [ -z "${TAG:-}" ]; then
+            echo "No x.y.0 tag found on origin/main" >&2
+            exit 1
+          fi
+
+          # Merge into main that brought TAG in, if any
+          MERGE=$(git rev-list --merges --ancestry-path "$TAG"..origin/main | tail -n1 || true)
+          [ -z "$MERGE" ] && MERGE="$TAG"
+
+          # If MERGE is a true merge, parent 2 is the release tip; else fall back to the tag itself
+          PARENTS=$(git rev-list --parents -n1 "$MERGE")
+          if [ "$(wc -w <<<"$PARENTS")" -ge 3 ]; then
+            REL_TIP=$(awk '{print $3}' <<<"$PARENTS")
+          else
+            REL_TIP="$TAG"
+          fi
+
+          PREV_CUT=$(git merge-base --fork-point "origin/dev" "$REL_TIP" || git merge-base "origin/dev" "$REL_TIP")
+
+          {
+            echo "cur_cut=$CUR_CUT"
+            echo "prev_cut=$PREV_CUT"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Current cut:  $CUR_CUT"
+          echo "Previous cut: $PREV_CUT"
+
+      - name: Find PRs on dev between cuts
+        id: prs
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PREV_CUT: ${{ steps.cuts.outputs.prev_cut }}
+          CUR_CUT: ${{ steps.cuts.outputs.cur_cut }}
+        if: ${{ steps.should_run.outputs.result == 'true' }}
+        run: |
+          set -euo pipefail
+          git fetch origin --prune
+
+          PRS=$(
+            git rev-list --reverse --first-parent "$PREV_CUT..$CUR_CUT" \
+            | xargs -n1 -I{} gh api "repos/$REPO_SLUG/commits/{}/pulls" \
+                 -H "Accept: application/vnd.github+json" \
+                 --jq "map(select(.base.ref==\"dev\")) | .[].number" \
+            | awk '!seen[$0]++'
+          )
+
+          {
+            echo 'numbers<<__EOF__'
+            printf '%s\n' "$PRS"
+            echo '__EOF__'
+          } >> "$GITHUB_OUTPUT"
+
+          echo "PRs between cuts:"
+          printf '%s\n' "$PRS"
+
+      - name: Get PR bodies and keep only '# <Word>:' lines
+        id: bodies
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PRS: ${{ steps.prs.outputs.numbers }}
+        if: ${{ steps.should_run.outputs.result == 'true' }}
+        run: |
+          set -euo pipefail
+
+          CHANGELOG_WORDS="$(
+            while IFS= read -r n; do
+              [ -z "$n" ] && continue
+              gh pr view "$n" --json body --jq '.body // ""'
+            done <<< "$PRS" | awk '/^# [[:alpha:]]+: /'
+          )"
+
+          {
+            echo 'CHANGELOG_WORDS<<__EOF__'
+            printf '%s\n' "$CHANGELOG_WORDS"
+            echo '__EOF__'
+          } >> "$GITHUB_ENV"
+
+          echo "Collected lines:"
+          printf '%s\n' "$CHANGELOG_WORDS"
+
+      - name: Format grouped changelog
+        id: format
+        env:
+          CHANGELOG_WORDS: ${{ env.CHANGELOG_WORDS }}
+        if: ${{ steps.should_run.outputs.result == 'true' }}
+        run: |
+          set -euo pipefail
+          CHANGELOG_MD="$(
+            awk '
+              match($0,/^# ([A-Za-z]+):[[:space:]]*(.*)$/,m){
+                w=m[1]; t=m[2]
+                sub(/^[[:space:]]+|[[:space:]]+$/,"",t)
+                if(!(w in seen)){ seen[w]=1; ord[++n]=w }
+                if(length(t)) items[w]=items[w] "- " t ORS
+              }
+              END{
+                for(i=1;i<=n;i++){
+                  w=ord[i]
+                  printf "### %s\n%s\n", w, items[w]
+                }
+              }
+            ' <<< "$CHANGELOG_WORDS"
+          )"
+
+          {
+            echo 'CHANGELOG_MD<<__EOF__'
+            printf '%s\n' "$CHANGELOG_MD"
+            echo '__EOF__'
+          } >> "$GITHUB_ENV"
+
+          printf '%s\n' "$CHANGELOG_MD"
+
+      - name: Prepend entry to CHANGELOG.md
+        env:
+          VERSION: ${{ steps.semver.outputs.new_tag }}
+          CHANGELOG_MD: ${{ env.CHANGELOG_MD }}
+        if: ${{ steps.should_run.outputs.result == 'true' }}
+        run: |
+          set -euo pipefail
+
+          if [ -z "${CHANGELOG_MD// }" ]; then
+            echo "No changelog content to add. Skipping."
+            exit 0
+          fi
+
+          DATE="$(date -u +%Y-%m-%d)"
+          HEADER="## ${VERSION} - ${DATE}"
+
+          if [ -f CHANGELOG.md ] && head -n1 CHANGELOG.md | grep -q '^# '; then
+            { head -n1 CHANGELOG.md
+              printf '\n'
+              printf '%s\n\n%s\n\n' "$HEADER" "$CHANGELOG_MD"
+              tail -n +2 CHANGELOG.md; } > CHANGELOG.new
+          else
+            { printf '%s\n\n%s\n\n' "$HEADER" "$CHANGELOG_MD"
+              [ -f CHANGELOG.md ] && cat CHANGELOG.md; } > CHANGELOG.new
+          fi
+
+          mv CHANGELOG.new CHANGELOG.md
+
+      - name: Commit and push changelog
+        uses: ./.github/actions/commit-and-push
+        with:
+          pat: ${{ secrets.ADMIN_TOKEN }}
+          message: chore: update changelog for ${{ steps.semver.outputs.new_tag }}
+          labels: changelog
+        if: ${{ steps.should_run.outputs.result == 'true' }}
