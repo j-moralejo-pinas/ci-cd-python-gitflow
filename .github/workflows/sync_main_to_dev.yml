@@ -1,6 +1,10 @@
 name: sync_main_to_dev
 
 on:
+  workflow_call:
+    secrets:
+      GH_TOKEN:
+        required: true
   pull_request:
     types: [closed]
     branches: [main]

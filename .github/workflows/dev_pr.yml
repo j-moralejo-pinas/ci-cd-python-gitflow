@@ -1,9 +1,11 @@
 name: dev_pr
 
 on:
-  pull_request:
-    branches:
-      - dev
+  workflow_call:
+    secrets:
+      PAT_AUTOFIX:
+        required: true
+
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -18,7 +20,7 @@ jobs:
     steps:
       - name: Run format action
         id: format
-        uses: ./.github/actions/format
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/format@main
         with:
           pat_autofix: ${{ secrets.PAT_AUTOFIX }}
 
@@ -29,4 +31,4 @@ jobs:
     if: needs.format.outputs.did_push != 'true'
     steps:
       - name: Run test action
-        uses: ./.github/actions/test
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/test@main

@@ -1,6 +1,10 @@
 name: Changelog slice between releases
 
 on:
+  workflow_call:
+    secrets:
+      ADMIN_TOKEN:
+        required: true
   workflow_dispatch:
   push:
     branches:
@@ -27,19 +31,19 @@ jobs:
       # Compute the new version as the first step
       - name: Compute new version
         id: semver
-        uses: ./.github/actions/find-next-semver
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/find-next-semver@main
 
-      # Detect last version present in CHANGELOG.rst (first header starting with '## vX.Y.Z - YYYY-MM-DD')
+      # Detect last version present in CHANGELOG.md (first header starting with '## vX.Y.Z - YYYY-MM-DD')
       - name: Determine last CHANGELOG version
         id: changelog_last
-        uses: ./.github/actions/get-last-changelog-version
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/get-last-changelog-version@main
         with:
           changelog_path: CHANGELOG.rst
 
       # Compare versions (semantic): result only if new_tag > last_tag
       - name: Check if new version is above last changelog version
         id: should_run
-        uses: ./.github/actions/compare-versions
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/compare-versions@main
         with:
           new_tag: ${{ steps.semver.outputs.new_tag }}
           last_tag: ${{ steps.changelog_last.outputs.last_tag }}
@@ -47,7 +51,7 @@ jobs:
       - name: Find release cuts (previous and current)
         id: cuts
         if: ${{ steps.should_run.outputs.result == 'true' }}
-        uses: ./.github/actions/find-release-cuts
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/find-release-cuts@main
         with:
           dev_branch: dev
           main_branch: main
@@ -55,9 +59,9 @@ jobs:
       - name: Find PRs on dev between cuts
         id: prs
         if: ${{ steps.should_run.outputs.result == 'true' }}
-        uses: ./.github/actions/find-prs-between-cuts
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/find-prs-between-cuts@main
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.ADMIN_TOKEN }}
           repo: ${{ env.REPO_SLUG }}
           dev_branch: dev
           prev_cut: ${{ steps.cuts.outputs.prev_cut }}
@@ -65,15 +69,15 @@ jobs:
 
       - name: Build and prepend changelog slice
         if: ${{ steps.should_run.outputs.result == 'true' }}
-        uses: ./.github/actions/update-changelog-slice
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/update-changelog-slice@main
         with:
-          token: ${{ github.token }}
+          token: ${{ secrets.ADMIN_TOKEN }}
           prs: ${{ steps.prs.outputs.numbers }}
           version: ${{ steps.semver.outputs.new_tag }}
-          changelog_path: CHANGELOG.rst
+          changelog_path: CHANGELOG.md
 
       - name: Commit and push changelog
-        uses: ./.github/actions/commit-and-push
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/commit-and-push@main
         with:
           pat: ${{ secrets.ADMIN_TOKEN }}
           message: chore: update changelog for ${{ steps.semver.outputs.new_tag }}

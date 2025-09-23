@@ -1,6 +1,12 @@
 name: release_on_merge
 
 on:
+  workflow_call:
+    secrets:
+      TEST_PYPI_API_TOKEN:
+        required: true
+      PYPI_API_TOKEN:
+        required: true
   pull_request:
     types: [closed]
     branches: [main]
@@ -23,7 +29,7 @@ jobs:
     steps:
       - name: Run semver tag action
         id: semver
-        uses: ./.github/actions/semver-tag
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/semver-tag@main
 
   publish:
     name: publish
@@ -32,7 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Run publish action
-        uses: ./.github/actions/publish
+        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/publish@main
         with:
           tag: ${{ needs.semver-tag.outputs.new_tag }}
           version: ${{ needs.semver-tag.outputs.version }}
