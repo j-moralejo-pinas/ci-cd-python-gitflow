@@ -125,5 +125,4 @@ runs:
         pat: ${{ inputs.pat_token }}
         message: "chore: update changelog for ${{ steps.semver.outputs.new_tag }}"
         labels: changelog
-        persist-credentials: false
       if: ${{ steps.meta.outputs.is_meta != 'true' && steps.should_run.outputs.result == 'true' }}

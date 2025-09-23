@@ -15,6 +15,13 @@ if [[ -z "${PAT}" ]]; then
   exit 0
 fi
 
+# Clear any existing credential helpers to ensure we only use the PAT
+git config --local --unset-all credential.helper || true
+git config --local --unset-all credential.username || true
+
+# Set the remote URL with PAT embedded for authentication
 git remote set-url origin "https://${PAT}@github.com/${REPO}.git"
+
+# Push using the PAT-authenticated remote
 git push origin "HEAD:${BRANCH}"
 echo "did_push=true" >> "${GITHUB_OUTPUT}"

@@ -4,8 +4,7 @@ description: Commit local changes (if any) and push to the caller's branch using
 inputs:
   pat:
     description: Personal Access Token with permission to push commits
-    required: false
-    default: ''
+    required: true
   message:
     description: Base commit message (labels will be appended as bracketed tags)
     required: false
