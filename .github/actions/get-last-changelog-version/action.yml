@@ -1,5 +1,5 @@
 name: Get Last Changelog Version
-description: Read CHANGELOG.rst and output the last recorded version tag (vX.Y.Z) from the latest entry header.
+description: Read CHANGELOG.rst and output the last recorded version tag (vX.Y.Z) from the latest entry header. Returns v0.0.0 if no version exists.
 
 inputs:
   changelog_path:
@@ -9,7 +9,7 @@ inputs:
 
 outputs:
   last_tag:
-    description: Last version tag found in the changelog (vX.Y.Z), empty if none
+    description: Last version tag found in the changelog (vX.Y.Z), or v0.0.0 if none
     value: ${{ steps.extract.outputs.last_tag }}
 
 runs:

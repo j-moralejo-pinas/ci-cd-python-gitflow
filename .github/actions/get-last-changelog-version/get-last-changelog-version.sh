@@ -8,6 +8,18 @@ CHANGELOG_PATH="${1:-CHANGELOG.rst}"
 
 if [[ -f "${CHANGELOG_PATH}" ]]; then
   LAST_TAG=$(awk '/^##[[:space:]]+v?[0-9]+\.[0-9]+\.[0-9]+[[:space:]]+-[[:space:]]+[0-9]{4}-[0-9]{2}-[0-9]{2}/{print $2; exit}' "${CHANGELOG_PATH}" || true)
+  echo "last_tag=${LAST_TAG:-v0.0.0}" >> "${GITHUB_OUTPUT}"
+else
+  echo "last_tag=v0.0.0" >> "${GITHUB_OUTPUT}"
+fi bash
+
+# Arguments:
+# 1: Path to the changelog file (default: CHANGELOG.rst)
+
+CHANGELOG_PATH="${1:-CHANGELOG.rst}"
+
+if [[ -f "${CHANGELOG_PATH}" ]]; then
+  LAST_TAG=$(awk '/^##[[:space:]]+v?[0-9]+\.[0-9]+\.[0-9]+[[:space:]]+-[[:space:]]+[0-9]{4}-[0-9]{2}-[0-9]{2}/{print $2; exit}' "${CHANGELOG_PATH}" || true)
   echo "last_tag=${LAST_TAG:-}" >> "${GITHUB_OUTPUT}"
 else
   echo "last_tag=" >> "${GITHUB_OUTPUT}"

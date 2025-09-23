@@ -55,7 +55,7 @@ runs:
     - name: Determine last CHANGELOG version
       id: changelog_last
       if: ${{ steps.meta.outputs.is_meta != 'true' }}
-      uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/get-last-changelog-version@main
+      uses: ./.github/actions/get-last-changelog-version
       with:
         changelog_path: ${{ inputs.changelog_path }}
 
@@ -68,13 +68,20 @@ runs:
         new_tag: ${{ steps.semver.outputs.new_tag }}
         last_tag: ${{ steps.changelog_last.outputs.last_tag }}
 
-    - name: Find release cuts (previous and current)
-      id: cuts
+    - name: Find previous release cut
+      id: previous_cut
       if: ${{ steps.meta.outputs.is_meta != 'true' && steps.should_run.outputs.result == 'true' }}
-      uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/find-release-cuts@main
+      uses: ./.github/actions/find-previous-release-cut
       with:
         dev_branch: dev
         main_branch: main
+
+    - name: Find current release cut
+      id: current_cut
+      if: ${{ steps.meta.outputs.is_meta != 'true' && steps.should_run.outputs.result == 'true' }}
+      uses: ./.github/actions/find-current-release-cut
+      with:
+        dev_branch: dev
 
     - name: Find PRs on dev between cuts
       id: prs
@@ -84,8 +91,8 @@ runs:
         token: ${{ inputs.token }}
         repo: ${{ github.repository }}
         dev_branch: dev
-        prev_cut: ${{ steps.cuts.outputs.prev_cut }}
-        cur_cut: ${{ steps.cuts.outputs.cur_cut }}
+        prev_cut: ${{ steps.previous_cut.outputs.prev_cut }}
+        cur_cut: ${{ steps.current_cut.outputs.cur_cut }}
 
     # Prepare PR list for changelog depending on branch type
     - name: Prepare PR list for changelog
