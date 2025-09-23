@@ -21,7 +21,7 @@ inputs:
 
 outputs:
   numbers:
-    description: Newline-separated PR numbers between cuts
+    description: Space-separated PR numbers between cuts
     value: ${{ steps.run.outputs.numbers }}
 
 runs:

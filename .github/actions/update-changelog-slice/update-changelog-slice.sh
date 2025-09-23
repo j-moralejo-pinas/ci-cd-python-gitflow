@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Required env vars:
 # - PAT_TOKEN: token for GitHub CLI auth
-# - PRS: newline-separated list of PR numbers
+# - PRS: space-separated list of PR numbers
 # - VERSION: tag for the new changelog entry (e.g., vX.Y.Z)
 # - CHANGELOG_PATH: path to changelog (default CHANGELOG.rst)
 
@@ -12,17 +12,18 @@ PRS="${PRS:-}"
 VERSION="${VERSION:-}"
 CHANGELOG_PATH="${CHANGELOG_PATH:-CHANGELOG.rst}"
 
-if [[ -z "${PRS//[$'\n' ]/}" ]]; then
+if [[ -z "${PRS// /}" ]]; then
   echo "No PR numbers provided; nothing to include in changelog." >&2
   exit 0
 fi
 
 # 1) Get PR bodies and keep only '# <Word>:' lines
 CHANGELOG_WORDS="$({
-  while IFS= read -r n; do
+  # Convert space-separated PR numbers to array and process each
+  for n in ${PRS}; do
     [[ -z "$n" ]] && continue
     gh pr view "$n" --json body --jq '.body // ""'
-  done <<< "$PRS" \
+  done \
   | awk '/^# [[:alpha:]]+: /'
 })"
 
