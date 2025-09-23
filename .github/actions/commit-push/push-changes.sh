@@ -15,9 +15,6 @@ if [[ -z "${PAT}" ]]; then
   exit 0
 fi
 
-git config --unset-all http.https://github.com/.extraheader || true
-git config --unset credential.helper || true
-
 git remote set-url origin "https://${PAT}@github.com/${REPO}.git"
 git push origin "HEAD:${BRANCH}"
 echo "did_push=true" >> "${GITHUB_OUTPUT}"
