@@ -26,6 +26,7 @@ runs:
       with:
         fetch-depth: 0
         fetch-tags: true
+        persist-credentials: false
 
     # Detect branch type and current PR number (if available)
     - name: Detect branch type and PR number
