@@ -49,7 +49,7 @@ runs:
     - name: Commit and push changes
       id: commit_push
       if: steps.skip_autofix.outputs.skip == 'no'
-      uses: ./.github/actions/commit-push
+      uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/commit-push
       with:
         pat: ${{ inputs.pat_autofix }}
         message: "style: apply autofix"

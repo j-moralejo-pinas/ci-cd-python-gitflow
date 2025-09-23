@@ -27,7 +27,7 @@ jobs:
           echo "version=${REF#v}" >> "$GITHUB_OUTPUT"
           echo "tag=$REF" >> "$GITHUB_OUTPUT"
       - name: Publish
-        uses: ./.github/actions/publish
+        uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/publish
         with:
           tag: ${{ steps.version.outputs.tag }}
           version: ${{ steps.version.outputs.version }}
