@@ -11,7 +11,7 @@ if [[ -f "${CHANGELOG_PATH}" ]]; then
   echo "last_tag=${LAST_TAG:-v0.0.0}" >> "${GITHUB_OUTPUT}"
 else
   echo "last_tag=v0.0.0" >> "${GITHUB_OUTPUT}"
-fi bash
+fi
 
 # Arguments:
 # 1: Path to the changelog file (default: CHANGELOG.rst)
