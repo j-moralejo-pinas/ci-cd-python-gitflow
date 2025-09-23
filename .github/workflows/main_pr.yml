@@ -6,7 +6,6 @@ on:
       PAT_TOKEN:
         required: true
 
-
 concurrency:
   group: ${{ github.workflow }}
   cancel-in-progress: true
@@ -33,7 +32,8 @@ jobs:
         id: update-changelog
         uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/update-changelog@main
         with:
-          token: ${{ secrets.PAT_TOKEN }}
+          pat_token: ${{ secrets.PAT_TOKEN }}
+          gh_token: ${{ github.token }}
 
   format:
     name: format

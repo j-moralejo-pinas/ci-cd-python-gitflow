@@ -22,7 +22,7 @@ runs:
     - name: Build and prepend changelog slice
       shell: bash
       env:
-        PAT_TOKEN: ${{ inputs.token }}
+        GH_TOKEN: ${{ inputs.token }}
         PRS: ${{ inputs.prs }}
         VERSION: ${{ inputs.version }}
         CHANGELOG_PATH: ${{ inputs.changelog_path }}

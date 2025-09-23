@@ -47,7 +47,7 @@ jobs:
         if: steps.ahead.outputs.ahead != '0'
         id: findpr
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           PR_COUNT=$(gh pr list --state open --base "${TARGET}" --head "${BASE}" --json number --jq 'length')
           if [ "${PR_COUNT}" -gt 0 ]; then
@@ -60,7 +60,7 @@ jobs:
       - name: Create PR main -> develop
         if: steps.ahead.outputs.ahead != '0' && steps.findpr.outputs.exists == 'no'
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           TITLE="Sync ${BASE} into ${TARGET}"
           BODY="Automated PR after merging #${{ github.event.pull_request.number }} into ${BASE}."
@@ -69,7 +69,7 @@ jobs:
       - name: Enable automerge
         if: steps.ahead.outputs.ahead != '0' && steps.findpr.outputs.exists == 'no'
         env:
-          PAT_TOKEN: ${{ secrets.PAT_TOKEN }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           # Grab the PR number just created
           PR_NUMBER=$(gh pr list --state open --base "${TARGET}" --head "${BASE}" --json number -q '.[0].number')

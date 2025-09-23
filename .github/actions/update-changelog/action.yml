@@ -2,7 +2,10 @@ name: Update Changelog
 description: Slice changelog between releases and update CHANGELOG.rst
 
 inputs:
-  token:
+  gh_token:
+    description: 'GitHub token for gh CLI'
+    required: true
+  pat_token:
     description: 'GitHub PAT token for API access'
     required: true
   changelog_path:
@@ -88,7 +91,7 @@ runs:
       if: ${{ steps.meta.outputs.is_meta != 'true' && steps.should_run.outputs.result == 'true' && steps.meta.outputs.is_hotfix != 'true' }}
       uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/find-prs-between-cuts@main
       with:
-        token: ${{ inputs.token }}
+        token: ${{ inputs.gh_token }}
         repo: ${{ github.repository }}
         dev_branch: dev
         prev_cut: ${{ steps.previous_cut.outputs.prev_cut }}
@@ -110,7 +113,7 @@ runs:
       if: ${{ steps.meta.outputs.is_meta != 'true' && steps.should_run.outputs.result == 'true' }}
       uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/update-changelog-slice@main
       with:
-        token: ${{ inputs.token }}
+        token: ${{ inputs.gh_token }}
         prs: ${{ steps.prs_input.outputs.numbers }}
         version: ${{ steps.semver.outputs.new_tag }}
         changelog_path: ${{ inputs.changelog_path }}
@@ -119,7 +122,7 @@ runs:
       id: commit_push
       uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/commit-push@main
       with:
-        pat: ${{ inputs.token }}
+        pat: ${{ inputs.pat_token }}
         message: "chore: update changelog for ${{ steps.semver.outputs.new_tag }}"
         labels: changelog
       if: ${{ steps.meta.outputs.is_meta != 'true' && steps.should_run.outputs.result == 'true' }}
