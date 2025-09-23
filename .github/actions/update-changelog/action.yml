@@ -55,7 +55,7 @@ runs:
     - name: Determine last CHANGELOG version
       id: changelog_last
       if: ${{ steps.meta.outputs.is_meta != 'true' }}
-      uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/get-last-changelog-version
+      uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/get-last-changelog-version@main
       with:
         changelog_path: ${{ inputs.changelog_path }}
 
@@ -71,7 +71,7 @@ runs:
     - name: Find previous release cut
       id: previous_cut
       if: ${{ steps.meta.outputs.is_meta != 'true' && steps.should_run.outputs.result == 'true' }}
-      uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/find-previous-release-cut
+      uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/find-previous-release-cut@main
       with:
         dev_branch: dev
         main_branch: main
@@ -79,7 +79,7 @@ runs:
     - name: Find current release cut
       id: current_cut
       if: ${{ steps.meta.outputs.is_meta != 'true' && steps.should_run.outputs.result == 'true' }}
-      uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/find-current-release-cut
+      uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/find-current-release-cut@main
       with:
         dev_branch: dev
 
