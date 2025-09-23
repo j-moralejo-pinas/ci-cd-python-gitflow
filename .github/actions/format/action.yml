@@ -2,7 +2,7 @@ name: Format and Autofix
 description: Run formatting tools (pyupgrade, ruff, docformatter) and push autofix commit if needed.
 
 inputs:
-  pat_autofix:
+  pat_token:
     description: Personal Access Token with permission to push autofix commits
     required: true
     default: ''
@@ -51,6 +51,6 @@ runs:
       if: steps.skip_autofix.outputs.skip == 'no'
       uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/commit-push@main
       with:
-        pat: ${{ inputs.pat_autofix }}
+        pat: ${{ inputs.pat_token }}
         message: "style: apply autofix"
         labels: autofix

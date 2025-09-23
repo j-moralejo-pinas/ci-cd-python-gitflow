@@ -3,7 +3,7 @@ name: dev_pr
 on:
   workflow_call:
     secrets:
-      PAT_AUTOFIX:
+      PAT_TOKEN:
         required: true
 
 
@@ -22,7 +22,7 @@ jobs:
         id: format
         uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/format@main
         with:
-          pat_autofix: ${{ secrets.PAT_AUTOFIX }}
+          pat_token: ${{ secrets.PAT_TOKEN }}
 
   test:
     name: test

@@ -14,7 +14,7 @@ inputs:
   changelog_path:
     description: Path to the changelog file to update
     required: false
-    default: CHANGELOG.md
+    default: CHANGELOG.rst
 
 runs:
   using: composite
@@ -22,7 +22,7 @@ runs:
     - name: Build and prepend changelog slice
       shell: bash
       env:
-        GH_TOKEN: ${{ inputs.token }}
+        PAT_TOKEN: ${{ inputs.token }}
         PRS: ${{ inputs.prs }}
         VERSION: ${{ inputs.version }}
         CHANGELOG_PATH: ${{ inputs.changelog_path }}

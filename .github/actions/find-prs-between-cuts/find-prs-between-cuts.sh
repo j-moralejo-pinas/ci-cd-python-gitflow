@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-GH_TOKEN="${GH_TOKEN:-}"
+PAT_TOKEN="${PAT_TOKEN:-}"
 REPO_SLUG="${REPO_SLUG:-}"
 DEV_BRANCH="${DEV_BRANCH:-dev}"
 PREV_CUT="${PREV_CUT:-}"

@@ -1,11 +1,11 @@
 name: Get Last Changelog Version
-description: Read CHANGELOG.md and output the last recorded version tag (vX.Y.Z) from the latest entry header.
+description: Read CHANGELOG.rst and output the last recorded version tag (vX.Y.Z) from the latest entry header.
 
 inputs:
   changelog_path:
     description: Path to the changelog file
     required: false
-    default: CHANGELOG.md
+    default: CHANGELOG.rst
 
 outputs:
   last_tag:

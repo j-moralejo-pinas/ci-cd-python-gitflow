@@ -2,15 +2,15 @@
 set -euo pipefail
 
 # Required env vars:
-# - GH_TOKEN: token for GitHub CLI auth
+# - PAT_TOKEN: token for GitHub CLI auth
 # - PRS: newline-separated list of PR numbers
 # - VERSION: tag for the new changelog entry (e.g., vX.Y.Z)
-# - CHANGELOG_PATH: path to changelog (default CHANGELOG.md)
+# - CHANGELOG_PATH: path to changelog (default CHANGELOG.rst)
 
-GH_TOKEN="${GH_TOKEN:-}"
+PAT_TOKEN="${PAT_TOKEN:-}"
 PRS="${PRS:-}"
 VERSION="${VERSION:-}"
-CHANGELOG_PATH="${CHANGELOG_PATH:-CHANGELOG.md}"
+CHANGELOG_PATH="${CHANGELOG_PATH:-CHANGELOG.rst}"
 
 if [[ -z "${PRS//[$'\n' ]/}" ]]; then
   echo "No PR numbers provided; nothing to include in changelog." >&2

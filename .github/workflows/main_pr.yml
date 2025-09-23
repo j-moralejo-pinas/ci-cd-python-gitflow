@@ -3,7 +3,7 @@ name: main_pr
 on:
   workflow_call:
     secrets:
-      PAT_AUTOFIX:
+      PAT_TOKEN:
         required: true
 
 
@@ -21,9 +21,24 @@ jobs:
         with:
           allowed_branches: dev
           allowed_prefixes: hotfix/,release/,meta/,major/
+
+  update-changelog:
+    name: update-changelog
+    runs-on: ubuntu-latest
+    needs: [check-source-branch]
+    outputs:
+      did_push: ${{ steps.update-changelog.outputs.did_push || 'false' }}
+    steps:
+      - name: Update changelog
+        id: update-changelog
+        uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/update-changelog@main
+        with:
+          token: ${{ secrets.PAT_TOKEN }}
+
   format:
     name: format
-    needs: check-source-branch
+    needs: [update-changelog]
+    if: needs.update-changelog.outputs.did_push != 'true'
     runs-on: ubuntu-latest
     outputs:
       did_push: ${{ steps.format.outputs.did_push || 'false' }}
@@ -32,7 +47,8 @@ jobs:
         id: format
         uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/format@main
         with:
-          pat_autofix: ${{ secrets.PAT_AUTOFIX }}
+          pat_token: ${{ secrets.PAT_TOKEN }}
+
   code-quality:
     name: code-quality
     runs-on: ubuntu-latest
