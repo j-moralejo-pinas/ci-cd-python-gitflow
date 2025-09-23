@@ -26,7 +26,6 @@ runs:
       with:
         fetch-depth: 0
         fetch-tags: true
-        persist-credentials: false
 
     # Detect branch type and current PR number (if available)
     - name: Detect branch type and PR number
@@ -126,4 +125,5 @@ runs:
         pat: ${{ inputs.pat_token }}
         message: "chore: update changelog for ${{ steps.semver.outputs.new_tag }}"
         labels: changelog
+        persist-credentials: false
       if: ${{ steps.meta.outputs.is_meta != 'true' && steps.should_run.outputs.result == 'true' }}
