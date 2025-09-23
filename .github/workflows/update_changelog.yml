@@ -29,7 +29,7 @@ jobs:
         id: semver
         uses: ./.github/actions/find-next-semver
 
-      # Detect last version present in CHANGELOG.md (first header starting with '## vX.Y.Z - YYYY-MM-DD')
+      # Detect last version present in CHANGELOG.rst (first header starting with '## vX.Y.Z - YYYY-MM-DD')
       - name: Determine last CHANGELOG version
         id: changelog_last
         uses: ./.github/actions/get-last-changelog-version
@@ -70,7 +70,7 @@ jobs:
           token: ${{ github.token }}
           prs: ${{ steps.prs.outputs.numbers }}
           version: ${{ steps.semver.outputs.new_tag }}
-          changelog_path: CHANGELOG.md
+          changelog_path: CHANGELOG.rst
 
       - name: Commit and push changelog
         uses: ./.github/actions/commit-and-push

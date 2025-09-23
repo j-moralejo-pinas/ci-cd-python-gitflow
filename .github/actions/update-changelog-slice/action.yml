@@ -14,7 +14,7 @@ inputs:
   changelog_path:
     description: Path to the changelog file to update
     required: false
-    default: CHANGELOG.md
+    default: CHANGELOG.rst
 
 runs:
   using: composite
