@@ -52,5 +52,5 @@ runs:
       uses: ./.github/actions/commit-push
       with:
         pat: ${{ inputs.pat_autofix }}
-        message: style: apply autofix
+        message: "style: apply autofix"
         labels: autofix
