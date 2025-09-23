@@ -17,7 +17,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Validate source branch
-        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/check-source-branch@main
+        uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/check-source-branch@main
         with:
           allowed_branches: dev
           allowed_prefixes: hotfix/,release/,meta/,major/
@@ -30,7 +30,7 @@ jobs:
     steps:
       - name: Run format action
         id: format
-        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/format@main
+        uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/format@main
         with:
           pat_autofix: ${{ secrets.PAT_AUTOFIX }}
   code-quality:
@@ -40,7 +40,7 @@ jobs:
     if: needs.format.outputs.did_push != 'true'
     steps:
       - name: Run code quality action
-        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/code-quality@main
+        uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/code-quality@main
 
   test:
     name: test
@@ -48,4 +48,4 @@ jobs:
     needs: [code-quality]
     steps:
       - name: Run test action
-        uses: j-moralejo-pinas/.ci-cd-python-gitflow/.github/actions/test@main
+        uses: j-moralejo-pinas/ci-cd-python-gitflow/.github/actions/test@main

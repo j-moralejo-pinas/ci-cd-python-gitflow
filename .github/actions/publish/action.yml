@@ -1,5 +1,5 @@
 name: Publish Distribution
-description: Build the package at a given tag and publish to TestPyPI and PyPI.
+description: Build the package at a given tag and publish to TestPyPI and, if a PyPI token is provided, to PyPI.
 
 inputs:
   tag:
@@ -13,15 +13,15 @@ inputs:
     required: true
   pypi_token:
     description: API token for PyPI
-    required: true
+    required: false
 
 runs:
   using: composite
   steps:
     - name: Checkout at tag
       uses: actions/checkout@v4
-      ref: ${{ inputs.tag }}
       with:
+        ref: ${{ inputs.tag }}
         fetch-depth: 0
 
     - name: Set up Python
@@ -49,7 +49,7 @@ runs:
           "${EXPECTED}"
 
     - name: Upload to PyPI
-      if: success()
+      if: ${{ success() && inputs.pypi_token != '' }}
       shell: bash
       run: |
         bash "${GITHUB_ACTION_PATH}/publish-upload-pypi.sh" \
