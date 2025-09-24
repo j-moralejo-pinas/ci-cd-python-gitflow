@@ -79,11 +79,11 @@ Sources to write the changelog:
 - https://semver.org/"
 
 if [[ -f "${CHANGELOG_PATH}" ]]; then
-  # Find the first Version line and get everything from that point onward
-  EXISTING_VERSIONS=$(awk '/^Version[[:space:]]+[0-9]+(\.[0-9]+)?(\.[0-9]+)?([[:space:]]+.*)?$/{print NR; exit}' "${CHANGELOG_PATH}" || echo "")
+  # Find the first semver line (vX.Y.Z format) and get everything from that point onward
+  EXISTING_VERSIONS=$(awk '/^v[0-9]+(\.[0-9]+)?(\.[0-9]+)?([[:space:]]+.*)?$/{print NR; exit}' "${CHANGELOG_PATH}" || echo "")
 
   if [[ -n "$EXISTING_VERSIONS" ]]; then
-    # Extract content from the first Version line onward
+    # Extract content from the first semver line onward
     EXISTING_CONTENT=$(tail -n +${EXISTING_VERSIONS} "${CHANGELOG_PATH}")
     # Create new file with header, new content, and existing versions
     { printf '%s\n\n\n' "$CHANGELOG_HEADER"
