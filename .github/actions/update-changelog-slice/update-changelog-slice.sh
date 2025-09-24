@@ -77,18 +77,20 @@ Sources to write the changelog:
 - https://semver.org/"
 
 if [[ -f "${CHANGELOG_PATH}" ]]; then
-  # Check if file starts with the standard header
-  if head -n7 "${CHANGELOG_PATH}" | grep -q "=========.*Changelog.*=========" ; then
-    # File has the header, preserve it and insert new entry after it
-    { head -n7 "${CHANGELOG_PATH}"
-      printf '\n\n'
-      printf '%s\n\n' "$CHANGELOG_CONTENT"
-      tail -n +8 "${CHANGELOG_PATH}"; } > "${CHANGELOG_PATH}.new"
-  else
-    # File exists but doesn't have the header, add header and content
+  # Find the first Version line and get everything from that point onward
+  EXISTING_VERSIONS=$(awk '/^Version[[:space:]]+[0-9]+(\.[0-9]+)?(\.[0-9]+)?([[:space:]]+.*)?$/{print NR; exit}' "${CHANGELOG_PATH}" || echo "")
+
+  if [[ -n "$EXISTING_VERSIONS" ]]; then
+    # Extract content from the first Version line onward
+    EXISTING_CONTENT=$(tail -n +${EXISTING_VERSIONS} "${CHANGELOG_PATH}")
+    # Create new file with header, new content, and existing versions
     { printf '%s\n\n\n' "$CHANGELOG_HEADER"
       printf '%s\n\n' "$CHANGELOG_CONTENT"
-      cat "${CHANGELOG_PATH}"; } > "${CHANGELOG_PATH}.new"
+      printf '%s\n' "$EXISTING_CONTENT"; } > "${CHANGELOG_PATH}.new"
+  else
+    # No existing versions found, just add header and new content
+    { printf '%s\n\n\n' "$CHANGELOG_HEADER"
+      printf '%s\n\n' "$CHANGELOG_CONTENT"; } > "${CHANGELOG_PATH}.new"
   fi
 else
   # File doesn't exist, create with header and content
