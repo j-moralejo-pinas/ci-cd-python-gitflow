@@ -42,6 +42,7 @@ runs:
           "${{ steps.find.outputs.new_tag }}" \
           "${BASE_BRANCH}" \
           "${MERGE_SHA}" \
-          "${PAT}"
+          "${PAT}" \
+          "${{ github.repository }}"
 
     # Version output is provided by the find-next-semver action
