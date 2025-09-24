@@ -33,17 +33,19 @@ fi
 # 2) Format grouped changelog in RST format
 CHANGELOG_RST="$({
   awk '
-    match($0,/^- ([A-Za-z]+):[[:space:]]*(.*)$/,m){
+    match($0,/^-[[:space:]]+([A-Za-z]+):[[:space:]]*(.*)$/,m){
       w=m[1]; t=m[2]
       sub(/^[[:space:]]+|[[:space:]]+$/,"",t)
       if(!(w in seen)){ seen[w]=1; ord[++n]=w }
-      if(length(t)) items[w]=items[w] "* " t ORS
+      if(length(t)) items[w]=items[w] "- " t ORS
     }
     END{
       for(i=1;i<=n;i++){
         w=ord[i]
         printf "%s\n", w
-        printf "%s\n", gsub(/./, "-", w) ? gensub(/./, "-", "g", w) : ""
+        underline=w
+        gsub(/./, "-", underline)
+        printf "%s\n", underline
         printf "%s\n", items[w]
       }
     }
