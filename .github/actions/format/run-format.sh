@@ -25,5 +25,6 @@ pdm run docformatter src/
 code=$?
 set -e
 if [[ "$code" != "0" && "$code" != "3" ]]; then
+  echo "::error::docformatter failed with exit code $code"
   exit "$code"
 fi
