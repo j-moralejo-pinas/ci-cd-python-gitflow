@@ -34,10 +34,11 @@ runs:
       with:
         python-version: ${{ steps.python-version.outputs.min_python_version }}
 
-    - name: Fix README
-      shell: bash
-      run: |
-        bash "${GITHUB_ACTION_PATH}/fix-readme.sh"
+    # TODO: Re-enable README fix when the script is ready
+    # - name: Fix README
+    #   shell: bash
+    #   run: |
+    #     bash "${GITHUB_ACTION_PATH}/fix-readme.sh"
 
     - name: Detect package name from pyproject.toml
       id: pkg
