@@ -7,4 +7,4 @@ set -euo pipefail
 PYPI_TOKEN="${1:-}"
 
 TWINE_USERNAME=__token__ TWINE_PASSWORD="${PYPI_TOKEN}" \
-  twine upload dist/*
+  twine upload dist/* --verbose

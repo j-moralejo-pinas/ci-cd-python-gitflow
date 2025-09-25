@@ -39,9 +39,11 @@ python -m pip install build twine
 # Build distributions
 python -m build
 
+twine check dist/*
+
 # Upload to TestPyPI
 TWINE_USERNAME=__token__ TWINE_PASSWORD="${TEST_PYPI_TOKEN}" \
-  twine upload --repository-url https://test.pypi.org/legacy/ dist/*
+  twine upload --repository-url https://test.pypi.org/legacy/ dist/* --verbose
 
 # Wait a bit for indexing
 sleep 30
