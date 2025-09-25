@@ -23,6 +23,7 @@ runs:
       with:
         ref: ${{ inputs.tag }}
         fetch-depth: 0
+        fetch-tags: true
 
     - name: Get minimum Python version
       id: python-version
