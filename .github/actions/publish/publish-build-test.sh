@@ -46,7 +46,7 @@ TWINE_USERNAME=__token__ TWINE_PASSWORD="${TEST_PYPI_TOKEN}" \
   twine upload --repository-url https://test.pypi.org/legacy/ dist/* --verbose
 
 # Wait a bit for indexing
-sleep 30
+sleep 60
 
 # Create clean venv and install from TestPyPI
 python -m venv .venv_test
